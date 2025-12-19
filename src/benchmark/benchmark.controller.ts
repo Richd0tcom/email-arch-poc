@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Headers, Logger } from '@nestjs/common';
+import { Controller, Post, Body, Headers, Logger, Get } from '@nestjs/common';
 import { BenchmarkService } from './benchmark.service';
 
 @Controller('benchmark')
@@ -57,5 +57,11 @@ export class BenchmarkController {
   @Post('health')
   health() {
     return { status: 'ok', timestamp: new Date().toISOString() };
+  }
+
+
+  @Get('metrics')
+  getMetrics() {
+    return this.benchmarkService.getMetrics();
   }
 }

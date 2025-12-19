@@ -27,7 +27,7 @@ export class BenchmarkService {
   }
 
   async processS3Approach(snsPayload: any): Promise<any> {
-    const receiptTime = Date.now();
+    
     const message = JSON.parse(snsPayload.Message);
     
     // Extract S3 details from SES notification
@@ -44,6 +44,9 @@ export class BenchmarkService {
 
     // Download and parse email from S3
     const emailContent = await this.s3Service.getEmailFromS3(s3Info.bucket, s3Info.key);
+
+    const receiptTime = Date.now();
+    
     const parsedEmail = this.parseEmail(emailContent);
 
     // Calculate timestamp differences
@@ -59,7 +62,7 @@ export class BenchmarkService {
       emailId: message.mail.messageId,
       size: parsedEmail.size,
       s3StorageLatency: s3StorageTime,
-      parsed: parsedEmail,
+    //   parsed: parsedEmail,
     };
   }
 
@@ -84,7 +87,7 @@ export class BenchmarkService {
       emailId: message.mail?.messageId || 'unknown',
       size: parsedEmail.size,
       processingLatency: processingTime,
-      parsed: parsedEmail,
+    //   parsed: parsedEmail,
     };
   }
 
