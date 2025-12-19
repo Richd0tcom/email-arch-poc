@@ -18,7 +18,8 @@ export class BenchmarkService {
     return new Promise((resolve, reject) => {
 
     this.logger.log(`SNS PAyload: ${payload}`)
-      const url = payload.SubscribeURL;
+    const newPayload = JSON.parse(payload)
+      const url = newPayload.SubscribeURL;
       
       https.get(url, (res) => {
         this.logger.log(`SNS subscription confirmed: ${res.statusCode}`);
