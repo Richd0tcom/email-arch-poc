@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { S3Service } from './s3.service';
 import * as https from 'https';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class BenchmarkService {
@@ -10,7 +11,8 @@ export class BenchmarkService {
     directSNSApproach: [] as number[],
   };
 
-  constructor(private readonly s3Service: S3Service) {}
+  constructor(private readonly s3Service: S3Service,
+     private configService: ConfigService,) {}
 
   async confirmSnsSubscription(payload: any): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -46,7 +48,7 @@ export class BenchmarkService {
     const emailContent = await this.s3Service.getEmailFromS3(s3Info.bucket, s3Info.key);
 
     const receiptTime = Date.now();
-    
+
     const parsedEmail = this.parseEmail(emailContent);
 
     // Calculate timestamp differences
@@ -144,5 +146,13 @@ export class BenchmarkService {
         latencies: this.metrics.directSNSApproach,
       },
     };
+  }
+
+  listObjects() {
+    return this.s3Service.listObjects();
+  }
+
+  getObject() {
+    return this.s3Service.getObject()
   }
 }

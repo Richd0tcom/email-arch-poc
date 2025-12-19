@@ -64,4 +64,14 @@ export class BenchmarkController {
   getMetrics() {
     return this.benchmarkService.getMetrics();
   }
+
+  @Get('list-objects')
+  listObjects() {
+    return this.benchmarkService.listObjects();
+  }
+
+  @Get('get-obj')
+  getObj() {
+    return this.benchmarkService.getObject();
+  }
 }
