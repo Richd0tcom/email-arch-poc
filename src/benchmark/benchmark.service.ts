@@ -32,8 +32,11 @@ export class BenchmarkService {
   }
 
   async processS3Approach(snsPayload: any): Promise<any> {
+    this.logger.log(`SNS PAyload: ${snsPayload}`)
+
+    const newPayload = JSON.parse(snsPayload);
     
-    const message = JSON.parse(snsPayload.Message);
+    const message = newPayload.Message
     
     // Extract S3 details from SES notification
     const s3Info = message?.receipt?.action?.bucketName 
@@ -72,8 +75,11 @@ export class BenchmarkService {
   }
 
   async processDirectSNSApproach(snsPayload: any): Promise<any> {
+    this.logger.log(`SNS PAyload: ${snsPayload}`)
+    
     const receiptTime = Date.now();
-    const message = JSON.parse(snsPayload.Message);
+    const newPayload = JSON.parse(snsPayload)
+    const message = newPayload.Message;
     
     // Direct SNS contains email content in message.content
     const emailContent = message?.content || snsPayload.Message;
